@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Carreras">
+        <item>Seleccionar</item>
+        <item>Lic. en Ingenieria en Telematica</item>
+        <item>Lic. en Periodismo</item>
+        <item>Lic. en Negocios Internacionales</item>
+        <item>Lic. en Derecho</item>
+    </string-array>
+
+</resources>
