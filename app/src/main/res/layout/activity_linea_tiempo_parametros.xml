@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_linea_tiempo_servicio"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="udg.cusur.ss.LineaTiempoParametros">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text="Linea del Tiempo para el control de tu servicio social"
+        android:id="@+id/textView"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_fecha"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:text="La fecha de Inicio es la fecha indicada en tu oficio de comision"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:background="@android:color/holo_blue_dark"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:drawableRight="@android:drawable/ic_menu_my_calendar"
+            android:text="Fecha Inicio"
+            android:elevation="10dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            android:onClick="dateInicio"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_fecha_inicio"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:layout_weight="2"/>
+
+    </LinearLayout>
+
+    <Spinner
+        style="spinner"
+        android:background="@android:color/holo_blue_light"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:entries="@array/Carreras"
+        android:textAlignment="center"
+        android:id="@+id/sp_carrera" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Crear Linea"
+        android:textColor="@android:color/white"
+        android:background="@android:color/holo_red_light"
+        android:onClick="crearLinea"/>
+
+
+</LinearLayout>

@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="Carreras">
-        <item>Seleccionar</item>
-        <item>Lic. en Ingenieria en Telematica</item>
-        <item>Lic. en Periodismo</item>
-        <item>Lic. en Negocios Internacionales</item>
-        <item>Lic. en Derecho</item>
+        <item>Seleccionar Carrera</item>
+        <item>MVZ</item>
+        <item>Licenciatura en Psicologia</item>
+        <item>Licenciatura en Letras Hispánicas</item>
+        <item>Licenciatura en Agronegocios</item>
+        <item>LDTS</item>
+        <item>Licenciatura en Negocios Internacionales</item>
+        <item>Licenciatura en Periodismo</item>
+        <item>Licenciatura en Ingenieria en Telématica</item>
+        <item>Licenciatura en Abogado</item>
+        <item>LPCE</item>
+        <item>MCP</item>
+        <item>Licenciatura en Nutricion</item>
+        <item>Licenciatura en Enfermeria</item>
+        <item>Licenciatura en Enfermeria Nivelación</item>
+        <item>Enfermería Técnica/Carrera de Enfermería</item>
+        <item>Enfermería Semiescolarizada</item>
     </string-array>
 
 </resources>
