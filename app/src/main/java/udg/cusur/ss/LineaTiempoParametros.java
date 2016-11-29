@@ -21,7 +21,7 @@ public class LineaTiempoParametros extends AppCompatActivity implements DatePick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_linea_tiempo_parametros);
 
-        txt_fecha_inicio = (TextView) findViewById(R.id.txt_fecha_inicio);
+        txt_fecha_inicio = (TextView) findViewById(R.id.txt_fecha_inicio_parametros);
         carrera = (Spinner) findViewById(R.id.sp_carrera);
     }
 
@@ -33,7 +33,7 @@ public class LineaTiempoParametros extends AppCompatActivity implements DatePick
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        txt_fecha_inicio.setText(String.format("%1$04d/%2$02d/%3$02d",year,month+1,dayOfMonth));
+        txt_fecha_inicio.setText(String.format("%3$02d/%2$02d/%1$04d",dayOfMonth,month+1,year));
     }
 
     public void crearLinea(View view){
