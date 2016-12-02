@@ -36,8 +36,7 @@
         android:layout_height="100dp"
         android:progressDrawable="@drawable/progressbar_vertical"
         android:id="@+id/progressBar4"
-        android:layout_above="@+id/progressBar3"
-        android:progress="0"/>
+        android:layout_above="@+id/progressBar3"/>
 
     <ImageView
         android:layout_width="75dp"
@@ -64,8 +63,7 @@
         android:layout_height="100dp"
         android:progressDrawable="@drawable/progressbar_vertical"
         android:id="@+id/progressBar3"
-        android:layout_above="@+id/progressBar2"
-        android:progress="0" />
+        android:layout_above="@+id/progressBar2" />
 
     <ImageView
         android:layout_width="75dp"
@@ -92,8 +90,7 @@
         android:layout_height="100dp"
         android:progressDrawable="@drawable/progressbar_vertical"
         android:id="@+id/progressBar2"
-        android:layout_above="@+id/progressBar1"
-        android:progress="0" />
+        android:layout_above="@+id/progressBar1" />
 
     <ImageView
         android:layout_width="75dp"
@@ -120,7 +117,6 @@
         android:layout_height="100dp"
         android:progressDrawable="@drawable/progressbar_vertical"
         android:id="@+id/progressBar1"
-        android:progress="0"
         android:layout_alignParentBottom="true"/>
 
     <TextView

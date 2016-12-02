@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="Carreras">
-        <item>Seleccionar Carrera</item>
+        <item>Seleccionar</item>
         <item>MVZ</item>
         <item>Licenciatura en Psicologia</item>
         <item>Licenciatura en Letras Hispánicas</item>
@@ -12,12 +12,18 @@
         <item>Licenciatura en Ingenieria en Telématica</item>
         <item>Licenciatura en Abogado</item>
         <item>LPCE</item>
-        <item>MCP</item>
         <item>Licenciatura en Nutricion</item>
+        <item>MCP</item>
         <item>Licenciatura en Enfermeria</item>
         <item>Licenciatura en Enfermeria Nivelación</item>
         <item>Enfermería Técnica/Carrera de Enfermería</item>
         <item>Enfermería Semiescolarizada</item>
+    </string-array>
+
+    <string-array name="fechasInicioSalud">
+        <item>Seleccionar</item>
+        <item>1 de Febrero</item>
+        <item>1 de Agosto</item>
     </string-array>
 
 </resources>
