@@ -8,8 +8,8 @@
             <shape
                 android:shape="line">
                 <stroke
-                    android:width="15dp"
-                    android:color="#00E5FF"
+                    android:width="5dp"
+                    android:color="#1DE9B6"
                     />
             </shape>
         </rotate>
@@ -23,8 +23,8 @@
                 <shape
                     android:shape="line">
                     <stroke
-                        android:width="15dp"
-                        android:color="#00B8D4"
+                        android:width="5dp"
+                        android:color="#00BFA5"
                         />
                 </shape>
             </rotate>

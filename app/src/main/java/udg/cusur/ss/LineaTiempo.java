@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -24,9 +25,12 @@ public class LineaTiempo extends AppCompatActivity {
     String fecha_actual = "";
     int carrera = 0;
     ProgressBar progressBar1, progressBar2, progressBar3, progressBar4;
+    ProgressBar progressBar1horas, progressBar2horas, progressBar3horas, progressBar4horas;
     ImageView linea1, linea2, linea3, linea4;
     TextView reporte1, reporte2, reporte3, reporte4;
     TextView fecha_inicio_ss;
+    TextView txt_fecha_actual;
+    EditText txt_horas;
     String diaSistema = "";
     int mesSistema = 0;
     int anioSistema = 0;
@@ -43,6 +47,10 @@ public class LineaTiempo extends AppCompatActivity {
         progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
         progressBar3 = (ProgressBar) findViewById(R.id.progressBar3);
         progressBar4 = (ProgressBar) findViewById(R.id.progressBar4);
+        progressBar1horas = (ProgressBar) findViewById(R.id.progressBar1horas);
+        progressBar2horas = (ProgressBar) findViewById(R.id.progressBar2horas);
+        progressBar3horas = (ProgressBar) findViewById(R.id.progressBar3horas);
+        progressBar4horas = (ProgressBar) findViewById(R.id.progressBar4horas);
         linea1 = (ImageView) findViewById(R.id.linea1);
         linea2 = (ImageView) findViewById(R.id.linea2);
         linea3 = (ImageView) findViewById(R.id.linea3);
@@ -51,6 +59,8 @@ public class LineaTiempo extends AppCompatActivity {
         reporte2 = (TextView) findViewById(R.id.txt_reporte2);
         reporte3 = (TextView) findViewById(R.id.txt_reporte3);
         reporte4 = (TextView) findViewById(R.id.txt_reporte4);
+        txt_fecha_actual = (TextView) findViewById(R.id.txt_fecha_actual);
+        txt_horas = (EditText) findViewById(R.id.txt_horas);
 
         //Obteniendo la fecha del sistema...
         Date d = new Date();
@@ -60,6 +70,7 @@ public class LineaTiempo extends AppCompatActivity {
         mesSistema = Integer.parseInt(aFechaIng[1]);
         anioSistema = Integer.parseInt(aFechaIng[2]);
         fecha_actual = diaSistema+"/"+mesSistema+"/"+anioSistema;
+        txt_fecha_actual.setText("Fecha de hoy "+fecha_actual);
 
 
         //Mostrar la linea del tiempo con sus reportes...
@@ -68,6 +79,8 @@ public class LineaTiempo extends AppCompatActivity {
 
     }
 
+
+    //Asyntask para calcular el progreso de fechas de acuerdo a su fecha de inicio de ss...
     class calcularProgreso extends AsyncTask<Void, Void, Void>{
 
         double total_dias_primer_reporte ;
@@ -102,10 +115,10 @@ public class LineaTiempo extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            System.out.println(dias_faltantes_primer_reporte+" "+total_dias_primer_reporte);
+            /*System.out.println(dias_faltantes_primer_reporte+" "+total_dias_primer_reporte);
             System.out.println(dias_faltantes_segundo_reporte+" "+total_dias_segundo_reporte);
             System.out.println(dias_faltantes_tercer_reporte+" "+total_dias_tercer_reporte);
-            System.out.println(dias_faltantes_cuarto_reporte+" "+total_dias_cuarto_reporte);
+            System.out.println(dias_faltantes_cuarto_reporte+" "+total_dias_cuarto_reporte);*/
 
 
             if(dias_faltantes_primer_reporte > 0 && dias_faltantes_primer_reporte <= total_dias_primer_reporte){
@@ -150,10 +163,8 @@ public class LineaTiempo extends AppCompatActivity {
                 worker22.start();
             }
             if(dias_faltantes_tercer_reporte > 0 && dias_faltantes_tercer_reporte <= total_dias_tercer_reporte){
-                System.out.println("Dias faltantes "+dias_faltantes_tercer_reporte+" Dias totales"+total_dias_tercer_reporte);
                 double p3 =  (dias_faltantes_tercer_reporte/total_dias_tercer_reporte)*100;
                 final int progreso3 = (int) p3;
-                System.out.println("Resultado "+progreso3);
                 Thread worker3 = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -194,6 +205,216 @@ public class LineaTiempo extends AppCompatActivity {
         }
     }
 
+    //Asyntask para calular las horas reralizadas con el total de horas que debe contar...
+    class calcularProgresoHoras extends AsyncTask<Void, Void, Void>{
+
+        double horas_realizadas;
+        double total_horas;
+
+        @Override
+        protected void onPreExecute() {
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+            horas_realizadas = sharedPreferences.getInt("Horas",0);
+            total_horas = sharedPreferences.getInt("Total horas",0);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+
+            if(total_horas == 480){
+
+                if(horas_realizadas <= 160){
+                    double p1 = (horas_realizadas/160)*100;
+                    final int progreso1 = (int) p1;
+                    Thread worker1 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar1horas.setProgress(progreso1);
+                        }
+                    });
+                    worker1.start();
+
+                }else if(horas_realizadas > 160){
+                    Thread worker12 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar1horas.setProgress(100);
+                        }
+                    });
+                    worker12.start();
+                }
+
+                if(horas_realizadas <= 320){
+                    double p2 = ((horas_realizadas-160)/160)*100;
+                    final int progreso2 = (int) p2;
+                    Thread worker2 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar2horas.setProgress(progreso2);
+                        }
+                    });
+                    worker2.start();
+
+                }else if(horas_realizadas > 320){
+                    Thread worker22 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar2horas.setProgress(100);
+                        }
+                    });
+                    worker22.start();
+                }
+
+                if(horas_realizadas <= 480){
+                    double p3 = ((horas_realizadas-320)/160)*100;
+                    final int progreso3 = (int) p3;
+                    Thread worker3 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar3horas.setProgress(progreso3);
+                        }
+                    });
+                    worker3.start();
+
+                }else if(horas_realizadas > 160){
+                    Thread worker32 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar3horas.setProgress(100);
+                        }
+                    });
+                    worker32.start();
+                }
+
+
+            }else if(total_horas == 960){
+
+                if(horas_realizadas <= 240){
+                    double p1 = (horas_realizadas/240)*100;
+                    final int progreso1 = (int) p1;
+                    Thread worker1 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar1horas.setProgress(progreso1);
+                        }
+                    });
+                    worker1.start();
+
+                }else if(horas_realizadas > 240){
+                    Thread worker12 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar1horas.setProgress(100);
+                        }
+                    });
+                    worker12.start();
+                }
+
+                if(horas_realizadas <= 480){
+                    double p2 = ((horas_realizadas-240)/240)*100;
+                    final int progreso2 = (int) p2;
+                    Thread worker2 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar2horas.setProgress(progreso2);
+                        }
+                    });
+                    worker2.start();
+
+                }else if(horas_realizadas > 480){
+                    Thread worker22 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar2horas.setProgress(100);
+                        }
+                    });
+                    worker22.start();
+                }
+
+                if(horas_realizadas <= 720){
+                    double p3 = ((horas_realizadas-480)/240)*100;
+                    final int progreso3 = (int) p3;
+                    Thread worker3 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar3horas.setProgress(progreso3);
+                        }
+                    });
+                    worker3.start();
+
+                }else if(horas_realizadas > 720){
+                    Thread worker32 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar3horas.setProgress(100);
+                        }
+                    });
+                    worker32.start();
+                }
+
+                if(horas_realizadas <= 960){
+                    double p3 = ((horas_realizadas-720)/240)*100;
+                    final int progreso3 = (int) p3;
+                    Thread worker4 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar3horas.setProgress(progreso3);
+                        }
+                    });
+                    worker4.start();
+
+                }else if(horas_realizadas > 960){
+                    Thread worker42 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar3horas.setProgress(100);
+                        }
+                    });
+                    worker42.start();
+                }
+            }
+            return null;
+        }
+    }
+
+    public void sumarHorasServicio(View view){
+        if(txt_horas != null){
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            String valor = txt_horas.getText().toString();
+            int horas_sumar = Integer.parseInt(valor);
+            int horas_realizadas = sharedPreferences.getInt("Horas",0);
+            int resultado = horas_sumar + horas_realizadas;
+            editor.putInt("Horas", resultado);
+            editor.commit();
+            new calcularProgresoHoras().execute();
+
+        }else{
+            Toast.makeText(getApplicationContext(),"Ingresa las horas para sumarlas",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void restarHorasServicio(View view){
+        if(txt_horas != null){
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            int horas_restar = Integer.getInteger(txt_horas.getText().toString());
+            int horas_realizadas = sharedPreferences.getInt("Horas",0);
+            if(horas_restar <= horas_realizadas){
+                int resultado = horas_realizadas - horas_restar;
+                editor.putInt("Horas", resultado);
+                editor.commit();
+                new calcularProgresoHoras().execute();
+            }else{
+                Toast.makeText(getApplicationContext(),"No puedes restar mas horas de las que no tienes",Toast.LENGTH_SHORT).show();
+            }
+
+        }else{
+            Toast.makeText(getApplicationContext(),"Ingresa las horas para restarlas",Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     //Metodo para recibir los datos de fecha inicio de ss y carrera para poder mostrar su requeridos fechas de reportes...
     public void mostrarReportes(){
@@ -211,6 +432,7 @@ public class LineaTiempo extends AppCompatActivity {
                     progressBar4.setVisibility(View.INVISIBLE);
                     linea4.setVisibility(View.INVISIBLE);
                     reporte4.setVisibility(View.INVISIBLE);
+                    progressBar4horas.setVisibility(View.INVISIBLE);
                     String[] fecha1 = sharedPreferences.getString("Primer reporte","0/0/0").split("/");
                     reporte1.setText("Primer reporte " + fecha1[0]+"/"+metodos.obtenerMes(Integer.parseInt(fecha1[1]))+"/"+fecha1[2]);
                     String[] fecha2 = sharedPreferences.getString("Segundo reporte","0/0/0").split("/");
@@ -251,6 +473,7 @@ public class LineaTiempo extends AppCompatActivity {
         }
     }
 
+    //Metodo para calcular los dias entre fechas....
     public int calcularDias(String fecha_final){
         String fechaReporte = fecha_final;
 

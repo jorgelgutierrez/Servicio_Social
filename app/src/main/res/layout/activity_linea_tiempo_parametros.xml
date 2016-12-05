@@ -12,28 +12,27 @@
     tools:context="udg.cusur.ss.LineaTiempoParametros">
 
     <TextView
+        style="@style/titulos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:text="Control de mi Servicio Social"
-        android:id="@+id/titulo"/>
+        android:id="@+id/titulo" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/subtitulos"
         android:layout_marginTop="10dp"
         android:id="@+id/txt_titulo_carrera"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:text="Selecciona tu carrera"
         android:layout_below="@+id/titulo" />
 
     <Spinner
-        android:background="@android:color/holo_blue_light"
+        style="@style/titulos"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:entries="@array/Carreras"
-        android:textAlignment="center"
         android:id="@+id/sp_carrera"
         android:layout_below="@+id/txt_titulo_carrera" />
 
@@ -42,18 +41,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:id="@+id/txt_titulo_fecha_inicio"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        style="@style/subtitulos"
         android:text="Selecciona la fecha de inicio que viene en tu oficio de comision"
         android:layout_below="@+id/sp_carrera" />
 
     <Button
-        android:background="@android:color/holo_blue_light"
+        style="@style/botones"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:drawableRight="@android:drawable/ic_menu_my_calendar"
         android:text="Fecha Inicio"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="@android:color/white"
         android:onClick="dateInicio"
         android:id="@+id/bt_fecha_inicio"
         android:layout_below="@+id/txt_titulo_fecha_inicio" />
@@ -62,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txt_fecha_inicio"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        style="@style/subtitulos"
         android:textAlignment="center"
         android:layout_below="@+id/bt_fecha_inicio" />
 
@@ -71,25 +68,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:id="@+id/txt_titulo_fecha_inicio_salud"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        style="@style/subtitulos"
         android:text="Selecciona tu fecha de inicio"
         android:layout_below="@+id/sp_carrera" />
 
     <Spinner
-        android:background="@android:color/holo_blue_light"
+        style="@style/titulos"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:entries="@array/fechasInicioSalud"
-        android:textAlignment="center"
         android:id="@+id/sp_fecha_inicio_salud"
         android:layout_below="@+id/txt_titulo_fecha_inicio" />
 
     <Button
+        style="@style/botones"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Crear Linea"
-        android:textColor="@android:color/white"
-        android:background="@android:color/holo_red_light"
         android:onClick="crearLinea"
         android:layout_alignParentBottom="true"
         android:id="@+id/bt_crear_linea" />

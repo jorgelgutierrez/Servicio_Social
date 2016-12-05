@@ -1,5 +1,6 @@
 package udg.cusur.ss;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -107,6 +108,8 @@ public class LineaTiempoParametros extends AppCompatActivity implements DatePick
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("fecha_inicio", fecha_inicio = txt_fecha_inicio.getText().toString());
                 editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
+                editor.putInt("Total horas", 480);
+                editor.putInt("Horas", 0);
                 editor.commit();
                 calcularFechasReportes();
                 Intent intent = new Intent(LineaTiempoParametros.this, LineaTiempo.class);
@@ -119,6 +122,8 @@ public class LineaTiempoParametros extends AppCompatActivity implements DatePick
                 if(sp_fecha_inicio_salud.getSelectedItemPosition() == 2)fecha_inicio_salud = "01/08/"+anioSistema;
                 editor.putString("fecha_inicio_salud", fecha_inicio = fecha_inicio_salud);
                 editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
+                editor.putInt("Total horas", 960);
+                editor.putInt("Horas", 0);
                 editor.commit();
                 calcularFechasReportes();
                 Intent intent = new Intent(LineaTiempoParametros.this, LineaTiempo.class);
@@ -189,6 +194,7 @@ public class LineaTiempoParametros extends AppCompatActivity implements DatePick
         calcularDiasFaltantesEntreFechasReportes();
     }
 
+    //Metodo para guardar los dias entre fechas de reportes...
     public void calcularDiasFaltantesEntreFechasReportes(){
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
         String reporte1 = sharedPreferences.getString("Primer reporte","0/0/0");
@@ -203,6 +209,7 @@ public class LineaTiempoParametros extends AppCompatActivity implements DatePick
         editor.commit();
     }
 
+    //Metodo para calcular los dias entre fechas...
     public int calcularDias(String fechaInicio, String fechaReporte){
         String[] aFechaIng = fechaInicio.split("/");
         int diaInicio = Integer.parseInt(aFechaIng[0]);
