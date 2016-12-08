@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!-- Base application theme. -->
@@ -13,20 +14,34 @@
         <item name="android:textSize">19dp</item>
         <item name="android:textStyle">bold|italic</item>
     </style>
+
     <style name="subtitulos" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:textColor">@color/colorSubtitulos</item>
         <item name="android:textSize">17dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
-    <style name="contenidos" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:textColor">@color/colorContenido</item>
+
+    <style name="texto_contenidos" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColor">@color/colorTextoContenido</item>
         <item name="android:textSize">16dp</item>
     </style>
+
     <style name="botones" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:background">@color/colorAccent</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+
     <style name="spinners" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:background">@color/colorAccent</item>
     </style>
+
+    <style name="fondo_activities" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/colorFondoActivities</item>
+    </style>
+
+    <style name="lineas_reportes" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/colorLineaReporte</item>
+    </style>
+
 
 </resources>

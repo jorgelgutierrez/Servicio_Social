@@ -1,6 +1,5 @@
 package udg.cusur.ss;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class LineaTiempoParametros extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
     Spinner sp_carrera;
     TextView txt_titulo_fecha_inicio;
@@ -38,7 +37,7 @@ public class LineaTiempoParametros extends AppCompatActivity implements DatePick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_linea_tiempo_parametros);
+        setContentView(R.layout.activity_ajustes);
 
         sp_carrera = (Spinner) findViewById(R.id.sp_carrera);
         txt_titulo_fecha_inicio = (TextView) findViewById(R.id.txt_titulo_fecha_inicio);
@@ -47,6 +46,8 @@ public class LineaTiempoParametros extends AppCompatActivity implements DatePick
         txt_titulo_fecha_inicio_salud = (TextView) findViewById(R.id.txt_titulo_fecha_inicio_salud);
         sp_fecha_inicio_salud = (Spinner) findViewById(R.id.sp_fecha_inicio_salud);
 
+        setTitle("Ajustes");
+
         //Obteniendo la fecha del sistema...
         Date d = new Date();
         String fechaActual  = String.valueOf(DateFormat.format("dd/MM/yyyy", d.getTime()));
@@ -54,6 +55,8 @@ public class LineaTiempoParametros extends AppCompatActivity implements DatePick
         diaSistema = aFechaIng[0];
         mesSistema = Integer.parseInt(aFechaIng[1]);
         anioSistema = Integer.parseInt(aFechaIng[2]);
+
+        cargarPreferencias();
 
         //Meotodo de escucha para el spinner carreras y para mostrar lo necesario de acuerdo a la carrera...
         sp_carrera.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -100,20 +103,62 @@ public class LineaTiempoParametros extends AppCompatActivity implements DatePick
         txt_fecha_inicio.setText(String.format("%1$02d/%2$02d/%3$02d",dayOfMonth,month+1,year));
     }
 
+    //Metodo si es la primera vez que se abre la app redirecciona a ajustes...
+    public void cargarPreferencias(){
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+        int carrera = sharedPreferences.getInt("carrera",0);
+        if(carrera != 0){
+            sp_carrera.setSelection(carrera);
+            if(carrera > 11){
+                String fecha_inicio = sharedPreferences.getString("fecha_inicio_salud","");
+                String [] fecha = fecha_inicio.split("/");
+                if(fecha[1].equals("02")){
+                    sp_fecha_inicio_salud.setSelection(1);
+                }else{
+                    sp_fecha_inicio_salud.setSelection(2);
+                }
+            }else{
+                String fecha_inicio = sharedPreferences.getString("fecha_inicio","");
+                txt_fecha_inicio.setText(fecha_inicio);
+            }
+        }else{
+            Toast.makeText(getApplicationContext(),"Indica tu carrea y fecha de inicio de tu servicio social",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    //Metodo para cargar los ajustes para la creacio de la linea del tiempo dependiendo de su carrera y fecha de inicio...
     public void crearLinea(View view){
         if(sp_carrera.getSelectedItemPosition() > 0 && txt_fecha_inicio.getText() != "" || sp_fecha_inicio_salud.getSelectedItemPosition() > 0){
             //Si la carrera es de 480 horas su servicio solo se guarda su carrera y la fecha de inicio que se selecciono de acuerdo a su oficio de comision...
-            if (sp_carrera.getSelectedItemPosition() < 12) {
+            if (sp_carrera.getSelectedItemPosition() < 11) {
                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("fecha_inicio", fecha_inicio = txt_fecha_inicio.getText().toString());
                 editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
                 editor.putInt("Total horas", 480);
                 editor.putInt("Horas", 0);
+                editor.putBoolean("first",false);
                 editor.commit();
                 calcularFechasReportes();
-                Intent intent = new Intent(LineaTiempoParametros.this, LineaTiempo.class);
+                Toast.makeText(getApplicationContext(),"Cambios Guardados",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Ajustes.this,LineaTiempo.class);
                 startActivity(intent);
+                finish();
+            } else if (sp_carrera.getSelectedItemPosition() == 11) {
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("fecha_inicio", fecha_inicio = txt_fecha_inicio.getText().toString());
+                editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
+                editor.putInt("Total horas", 960);
+                editor.putInt("Horas", 0);
+                editor.putBoolean("first",false);
+                editor.commit();
+                calcularFechasReportes();
+                Toast.makeText(getApplicationContext(),"Cambios Guardados",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Ajustes.this,LineaTiempo.class);
+                startActivity(intent);
+                finish();
             } else if (sp_carrera.getSelectedItemPosition() > 11) {
                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -124,10 +169,13 @@ public class LineaTiempoParametros extends AppCompatActivity implements DatePick
                 editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
                 editor.putInt("Total horas", 960);
                 editor.putInt("Horas", 0);
+                editor.putBoolean("first",false);
                 editor.commit();
                 calcularFechasReportes();
-                Intent intent = new Intent(LineaTiempoParametros.this, LineaTiempo.class);
+                Toast.makeText(getApplicationContext(),"Cambios Guardados",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Ajustes.this,LineaTiempo.class);
                 startActivity(intent);
+                finish();
             }
         }else{
             Toast.makeText(getApplicationContext(),"Incompleto",Toast.LENGTH_SHORT).show();

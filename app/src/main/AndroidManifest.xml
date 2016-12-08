@@ -2,20 +2,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="udg.cusur.ss">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LineaTiempoParametros">
+        <activity android:name=".Ajustes"/>
+
+        <activity android:name=".LineaTiempo" />
+
+        <activity android:name=".MenuInicio">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LineaTiempo"></activity>
+
+        <activity android:name=".Reportes"/>
+
     </application>
 
 </manifest>

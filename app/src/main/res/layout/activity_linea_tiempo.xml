@@ -5,26 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingLeft="-40dp"
     android:orientation="vertical"
+    style="@style/fondo_activities"
     tools:context="udg.cusur.ss.LineaTiempo"
-    android:background="#E0F7FA"
     android:weightSum="1">
 
     <ImageView
+        style="@style/lineas_reportes"
         android:layout_width="75dp"
         android:layout_height="1dp"
         android:id="@+id/linea4"
         android:layout_above="@+id/progressBar4"
-        android:layout_alignRight="@+id/progressBar4"
-        android:background="@color/colorPrimaryDark"/>
+        android:layout_alignRight="@+id/progressBar4"/>
 
     <TextView
+        style="@style/texto_contenidos"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:textColor="#065a96"
         android:gravity="bottom|center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:text="Reporte 4"
@@ -41,17 +41,17 @@
         android:layout_above="@+id/linea3"/>
 
     <ImageView
+        style="@style/lineas_reportes"
         android:layout_width="75dp"
         android:layout_height="1dp"
         android:id="@+id/linea3"
         android:layout_above="@+id/progressBar3"
-        android:layout_alignRight="@+id/progressBar3"
-        android:background="@color/colorPrimaryDark"/>
+        android:layout_alignRight="@+id/progressBar3"/>
 
     <TextView
+        style="@style/texto_contenidos"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:textColor="#065a96"
         android:gravity="bottom|center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:text="Reporte 3"
@@ -68,17 +68,17 @@
         android:layout_above="@+id/linea2" />
 
     <ImageView
+        style="@style/lineas_reportes"
         android:layout_width="75dp"
         android:layout_height="1dp"
         android:id="@+id/linea2"
         android:layout_above="@+id/progressBar2"
-        android:layout_alignRight="@+id/progressBar2"
-        android:background="@color/colorPrimaryDark"/>
+        android:layout_alignRight="@+id/progressBar2"/>
 
     <TextView
+        style="@style/texto_contenidos"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:textColor="#065a96"
         android:gravity="bottom|center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:text="Reporte 2"
@@ -95,17 +95,17 @@
         android:layout_above="@+id/linea1" />
 
     <ImageView
+        style="@style/lineas_reportes"
         android:layout_width="75dp"
         android:layout_height="1dp"
         android:id="@+id/linea1"
         android:layout_above="@+id/progressBar1"
-        android:layout_alignRight="@+id/progressBar1"
-        android:background="@color/colorPrimaryDark"/>
+        android:layout_alignRight="@+id/progressBar1"/>
 
     <TextView
+        style="@style/texto_contenidos"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:textColor="#065a96"
         android:gravity="bottom|center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:text="Reporte 1"
@@ -122,9 +122,9 @@
         android:layout_alignParentBottom="true"/>
 
     <TextView
+        style="@style/texto_contenidos"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:textColor="#065a96"
         android:gravity="center|bottom"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:text="Fecha Inicio"
@@ -172,26 +172,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_toRightOf="@id/txt_reporte1">
+        android:background="#cceef2"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:layout_toRightOf="@id/txt_fecha_inicio_linea_tiempo">
 
 
         <TextView
+            style="@style/texto_contenidos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txt_fecha_actual"
-            android:textColor="#065a96"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             android:text="FECHA DE HOY"/>
 
         <TextView
+            style="@style/texto_contenidos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:paddingTop="10dp"
             android:text="Ingresa tus horas realizadas"
-            android:textSize="8dp"/>
+            android:textSize="10dp"/>
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Horas"
             android:drawableRight="@drawable/ic_clock"
@@ -209,7 +214,6 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:onClick="sumarHorasServicio"
-                android:background="@android:color/transparent"
                 android:src="@drawable/ic_agregar"/>
 
             <ImageButton
@@ -217,22 +221,43 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:onClick="restarHorasServicio"
-                android:background="@android:color/transparent"
                 android:src="@drawable/ic_borrar_horas"/>
 
         </LinearLayout>
 
+        <TextView
+            style="@style/texto_contenidos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Total de horas realizadas hasta el momento"
+            android:id="@+id/txt_total_horas_realizadas"
+            android:textAlignment="center"
+            android:textSize="10dp"/>
+
+        <TextView
+            style="@style/texto_contenidos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Reporte Final"
+            android:id="@+id/txt_reporte_final"
+            android:textAlignment="center"
+            android:textSize="14dp"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center|bottom">
 
             <TextView
-                android:layout_width="wrap_content"
+                style="@style/texto_contenidos"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Progreso por fecha"
-                android:textSize="8dp"
+                android:textSize="10dp"
                 android:id="@+id/txt1"
-                android:layout_alignParentRight="true"
+                android:textAlignment="center"
                 android:layout_above="@+id/pb1"/>
 
             <ProgressBar
@@ -242,16 +267,16 @@
                 android:progressTint="#00E5FF"
                 android:progress="100"
                 android:id="@+id/pb1"
-                android:layout_alignParentRight="true"
                 android:layout_above="@+id/txt2"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                style="@style/texto_contenidos"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txt2"
                 android:text="Progreso por hora"
-                android:textSize="8dp"
-                android:layout_alignParentRight="true"
+                android:textSize="10dp"
+                android:textAlignment="center"
                 android:layout_above="@+id/pb2"/>
 
             <ProgressBar
@@ -261,7 +286,6 @@
                 android:progressTint="#1DE9B6"
                 android:id="@+id/pb2"
                 android:progress="100"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"/>
 
 

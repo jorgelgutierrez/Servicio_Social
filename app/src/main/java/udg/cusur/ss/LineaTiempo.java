@@ -27,10 +27,11 @@ public class LineaTiempo extends AppCompatActivity {
     ProgressBar progressBar1, progressBar2, progressBar3, progressBar4;
     ProgressBar progressBar1horas, progressBar2horas, progressBar3horas, progressBar4horas;
     ImageView linea1, linea2, linea3, linea4;
-    TextView reporte1, reporte2, reporte3, reporte4;
+    TextView reporte1, reporte2, reporte3, reporte4, reporte_final;
     TextView fecha_inicio_ss;
     TextView txt_fecha_actual;
     EditText txt_horas;
+    TextView txt_horas_realizadas;
     String diaSistema = "";
     int mesSistema = 0;
     int anioSistema = 0;
@@ -61,6 +62,10 @@ public class LineaTiempo extends AppCompatActivity {
         reporte4 = (TextView) findViewById(R.id.txt_reporte4);
         txt_fecha_actual = (TextView) findViewById(R.id.txt_fecha_actual);
         txt_horas = (EditText) findViewById(R.id.txt_horas);
+        txt_horas_realizadas = (TextView) findViewById(R.id.txt_total_horas_realizadas);
+        reporte_final = (TextView) findViewById(R.id.txt_reporte_final);
+
+        setTitle("Tu linea del tiempo");
 
         //Obteniendo la fecha del sistema...
         Date d = new Date();
@@ -70,12 +75,14 @@ public class LineaTiempo extends AppCompatActivity {
         mesSistema = Integer.parseInt(aFechaIng[1]);
         anioSistema = Integer.parseInt(aFechaIng[2]);
         fecha_actual = diaSistema+"/"+mesSistema+"/"+anioSistema;
-        txt_fecha_actual.setText("Fecha de hoy "+fecha_actual);
+        Metodos metodos = new Metodos();
+        txt_fecha_actual.setText("Fecha de hoy "+diaSistema+"/"+metodos.obtenerMes(mesSistema)+"/"+anioSistema);
 
 
         //Mostrar la linea del tiempo con sus reportes...
         mostrarReportes();
         new calcularProgreso().execute();
+        new calcularProgresoHoras().execute();
 
     }
 
@@ -215,6 +222,7 @@ public class LineaTiempo extends AppCompatActivity {
         protected void onPreExecute() {
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
             horas_realizadas = sharedPreferences.getInt("Horas",0);
+            txt_horas_realizadas.setText("Total de Horas Realizadas: "+(int) horas_realizadas);
             total_horas = sharedPreferences.getInt("Total horas",0);
         }
 
@@ -359,7 +367,7 @@ public class LineaTiempo extends AppCompatActivity {
                     Thread worker4 = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            progressBar3horas.setProgress(progreso3);
+                            progressBar4horas.setProgress(progreso3);
                         }
                     });
                     worker4.start();
@@ -368,7 +376,7 @@ public class LineaTiempo extends AppCompatActivity {
                     Thread worker42 = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            progressBar3horas.setProgress(100);
+                            progressBar4horas.setProgress(100);
                         }
                     });
                     worker42.start();
@@ -378,12 +386,12 @@ public class LineaTiempo extends AppCompatActivity {
         }
     }
 
+    //Metodo para sumar las horas ingresadas al total de horas que lleva el prestador de ss...
     public void sumarHorasServicio(View view){
-        if(txt_horas != null){
+        if(!txt_horas.getText().toString().equals("")){
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            String valor = txt_horas.getText().toString();
-            int horas_sumar = Integer.parseInt(valor);
+            int horas_sumar = Integer.parseInt(txt_horas.getText().toString());
             int horas_realizadas = sharedPreferences.getInt("Horas",0);
             int resultado = horas_sumar + horas_realizadas;
             editor.putInt("Horas", resultado);
@@ -395,11 +403,12 @@ public class LineaTiempo extends AppCompatActivity {
         }
     }
 
+    //Metodo para restar las horas ingresadas del total de horas que lleva el prestador de ss...
     public void restarHorasServicio(View view){
-        if(txt_horas != null){
+        if(!txt_horas.getText().toString().equals("")){
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            int horas_restar = Integer.getInteger(txt_horas.getText().toString());
+            int horas_restar = Integer.parseInt(txt_horas.getText().toString());
             int horas_realizadas = sharedPreferences.getInt("Horas",0);
             if(horas_restar <= horas_realizadas){
                 int resultado = horas_realizadas - horas_restar;
@@ -414,7 +423,6 @@ public class LineaTiempo extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Ingresa las horas para restarlas",Toast.LENGTH_SHORT).show();
         }
     }
-
 
     //Metodo para recibir los datos de fecha inicio de ss y carrera para poder mostrar su requeridos fechas de reportes...
     public void mostrarReportes(){
@@ -439,6 +447,7 @@ public class LineaTiempo extends AppCompatActivity {
                     reporte2.setText("Segundo reporte " + fecha2[0]+"/"+metodos.obtenerMes(Integer.parseInt(fecha2[1]))+"/"+fecha2[2]);
                     String[] fecha3 = sharedPreferences.getString("Tercer reporte","0/0/0").split("/");
                     reporte3.setText("Tercer reporte " + fecha3[0]+"/"+metodos.obtenerMes(Integer.parseInt(fecha3[1]))+"/"+fecha3[2]);
+                    reporte_final.setText("Reporte Final "+ fecha3[0]+"/"+metodos.obtenerMes(Integer.parseInt(fecha3[1]))+"/"+fecha3[2]);
 
                 } else if (carrera == 11) {
 
@@ -450,6 +459,7 @@ public class LineaTiempo extends AppCompatActivity {
                     reporte3.setText("Tercer reporte " + fecha3[0]+"/"+metodos.obtenerMes(Integer.parseInt(fecha3[1]))+"/"+fecha3[2]);
                     String[] fecha4 = sharedPreferences.getString("Cuarto reporte","0/0/0").split("/");
                     reporte4.setText("Cuarto reporte " + fecha4[0]+"/"+metodos.obtenerMes(Integer.parseInt(fecha4[1]))+"/"+fecha4[2]);
+                    reporte_final.setText("Reporte Final "+ fecha4[0]+"/"+metodos.obtenerMes(Integer.parseInt(fecha4[1]))+"/"+fecha4[2]);
 
                 }
 
@@ -466,6 +476,7 @@ public class LineaTiempo extends AppCompatActivity {
                 reporte3.setText("Tercer reporte " + fecha3[0]+"/"+metodos.obtenerMes(Integer.parseInt(fecha3[1]))+"/"+fecha3[2]);
                 String[] fecha4 = sharedPreferences.getString("Cuarto reporte","0/0/0").split("/");
                 reporte4.setText("Cuarto reporte " + fecha4[0]+"/"+metodos.obtenerMes(Integer.parseInt(fecha4[1]))+"/"+fecha4[2]);
+                reporte_final.setText("Reporte Final "+ fecha4[0]+"/"+metodos.obtenerMes(Integer.parseInt(fecha4[1]))+"/"+fecha4[2]);
             }
         }else{
             Toast.makeText(getApplicationContext(),"Para comenzar porfavor agregar tu fecha de inicio " +

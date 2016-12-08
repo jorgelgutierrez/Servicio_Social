@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "493152708045",
+    "firebase_url": "https://micusur-e5cde.firebaseio.com",
+    "project_id": "micusur-e5cde",
+    "storage_bucket": "micusur-e5cde.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493152708045:android:0e7a15b6ec59aa06",
+        "android_client_info": {
+          "package_name": "mx.udg.cusur.micusur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493152708045-72aov2ag6dh5dnb2f4je0hqhoktuntsa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7F0VMWcrME6PjJObTI-6hAvYRzT2Lh_8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493152708045:android:f62e1807327ab7af",
+        "android_client_info": {
+          "package_name": "udg.cusur.ss"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493152708045-72aov2ag6dh5dnb2f4je0hqhoktuntsa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7F0VMWcrME6PjJObTI-6hAvYRzT2Lh_8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
