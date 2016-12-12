@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Servicio Social</string>
+    <string name="url_servidor">http://comode.esy.es/</string>
 </resources>

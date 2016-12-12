@@ -1,7 +1,9 @@
 package udg.cusur.ss;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -65,7 +67,7 @@ public class LineaTiempo extends AppCompatActivity {
         txt_horas_realizadas = (TextView) findViewById(R.id.txt_total_horas_realizadas);
         reporte_final = (TextView) findViewById(R.id.txt_reporte_final);
 
-        setTitle("Tu linea del tiempo");
+        setTitle("Mi progreso");
 
         //Obteniendo la fecha del sistema...
         Date d = new Date();
@@ -511,6 +513,11 @@ public class LineaTiempo extends AppCompatActivity {
             return 0;
         }
 
+    }
+
+    public void openReglamento(View vie){
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cusur.udg.mx/es/sites/default/files/reglamento_gral_para_la_prestacion_del_servicio_social.pdf"));
+        startActivity(browserIntent);
     }
 
 

@@ -1,9 +1,13 @@
 package udg.cusur.ss;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -15,9 +19,23 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+
+import cz.msebera.android.httpclient.NameValuePair;
+import cz.msebera.android.httpclient.client.ClientProtocolException;
+import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
+import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import cz.msebera.android.httpclient.message.BasicNameValuePair;
+import cz.msebera.android.httpclient.protocol.HTTP;
+
 
 public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
@@ -31,6 +49,7 @@ public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDat
     int mesSistema = 0;
     int anioSistema = 0;
     String fecha_inicio = "";
+
 
 
 
@@ -141,10 +160,8 @@ public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDat
                 editor.putBoolean("first",false);
                 editor.commit();
                 calcularFechasReportes();
-                Toast.makeText(getApplicationContext(),"Cambios Guardados",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Ajustes.this,LineaTiempo.class);
-                startActivity(intent);
-                finish();
+                new enviarMiServicio().execute();
+
             } else if (sp_carrera.getSelectedItemPosition() == 11) {
                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -155,10 +172,8 @@ public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDat
                 editor.putBoolean("first",false);
                 editor.commit();
                 calcularFechasReportes();
-                Toast.makeText(getApplicationContext(),"Cambios Guardados",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Ajustes.this,LineaTiempo.class);
-                startActivity(intent);
-                finish();
+                new enviarMiServicio().execute();
+
             } else if (sp_carrera.getSelectedItemPosition() > 11) {
                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -172,10 +187,8 @@ public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDat
                 editor.putBoolean("first",false);
                 editor.commit();
                 calcularFechasReportes();
-                Toast.makeText(getApplicationContext(),"Cambios Guardados",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Ajustes.this,LineaTiempo.class);
-                startActivity(intent);
-                finish();
+                new enviarMiServicio().execute();
+
             }
         }else{
             Toast.makeText(getApplicationContext(),"Incompleto",Toast.LENGTH_SHORT).show();
@@ -285,5 +298,67 @@ public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDat
 
         return dias;
     }
+
+    //Asyntask para enviar fechas de acuerdo a su fecha de inicio de ss...
+    class enviarMiServicio extends AsyncTask<Void, Void, Void> {
+
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(Ajustes.this);
+            pDialog.setMessage("   Cargando");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+            String cuarto_reporte = sharedPreferences.getString("Cuarto reporte","0/0/0");
+            if(sharedPreferences.getInt("carrera",0) < 11){
+                cuarto_reporte = "0/0/0";
+            }
+
+            String url_servidor = getResources().getString(R.string.url_servidor)+"Guardar_Servicio.php";
+            HttpClient cliente = new DefaultHttpClient();
+            HttpPost post = new HttpPost(url_servidor);
+            List<NameValuePair> postParameters = new ArrayList<NameValuePair>(1);
+            postParameters.add(new BasicNameValuePair("token",sharedPreferences.getString("token","ninguno")));
+            postParameters.add(new BasicNameValuePair("reporte1",sharedPreferences.getString("Primer reporte","0/0/0")));
+            postParameters.add(new BasicNameValuePair("reporte2",sharedPreferences.getString("Segundo reporte","0/0/0")));
+            postParameters.add(new BasicNameValuePair("reporte3",sharedPreferences.getString("Tercer reporte","0/0/0")));
+            postParameters.add(new BasicNameValuePair("reporte4",cuarto_reporte));
+            try {
+                post.setEntity(new UrlEncodedFormEntity(postParameters, HTTP.UTF_8));
+                cliente.execute(post);
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            pDialog.dismiss();
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_ajustes),"Servicio Guardado",Snackbar.LENGTH_LONG)
+                    .setAction("Ver mi Progreso", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(Ajustes.this,LineaTiempo.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+            snackbar.show();
+        }
+    }
+
 
 }
