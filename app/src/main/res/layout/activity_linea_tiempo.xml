@@ -172,7 +172,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#cceef2"
+        android:background="#f5f4f4"
         android:gravity="center"
         android:paddingLeft="5dp"
         android:layout_toRightOf="@id/txt_fecha_inicio_linea_tiempo">

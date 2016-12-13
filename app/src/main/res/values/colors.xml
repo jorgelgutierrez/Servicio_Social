@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00838F</color>
-    <color name="colorPrimaryDark">#006064</color>
+    <color name="colorPrimary">#00695C</color>
+    <color name="colorPrimaryDark">#263238</color>
     <color name="colorAccent">#00B8D4</color>
-    <color name="colorTitulos">#0091EA</color>
-    <color name="colorSubtitulos">#00B0FF</color>
-    <color name="colorTextoContenido">#065a96</color>
-    <color name="colorTextoBotones">#84FFFF</color>
-    <color name="colorFondoActivities">#E0F7FA</color>
+    <color name="colorTitulos">#000000</color>
+    <color name="colorSubtitulos">#000000</color>
+    <color name="colorTextoContenido">#000000</color>
+    <color name="colorTextoBotones">#000000</color>
+    <color name="colorFondoActivities">#FFFFFF</color>
     <color name="colorLineaReporte">#013941</color>
 
 </resources>

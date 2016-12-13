@@ -41,8 +41,7 @@ $server_key = "AIzaSyDAHjQTRGE8lbyInN1JVsHEf_J_uRQgTSU";
                             'body'=>$mensaje,
                             'icon' => "ic_notificaciones",
                             'sound' => "default",
-                            'color' => "#366695", 
-                            'click_action' => "BandejaNotificaciones"),
+                            'color' => "#366695"),
         'data' => array('Titulo' => $titulo, 
                             'Mensaje' => $mensaje, 
                             'Id_Notificacion' => $id_notificacion)
