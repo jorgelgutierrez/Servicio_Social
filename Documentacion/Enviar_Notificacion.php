@@ -37,7 +37,16 @@ $server_key = "AIzaSyDAHjQTRGE8lbyInN1JVsHEf_J_uRQgTSU";
         );
 
         $fields = array('to'=>$key,
-                       'notification'=>array('title'=>$titulo,'body'=>$mensaje));
+        'notification'=>array('title'=>$titulo,
+                            'body'=>$mensaje,
+                            'icon' => "ic_notificaciones",
+                            'sound' => "default",
+                            'color' => "#366695", 
+                            'click_action' => "BandejaNotificaciones"),
+        'data' => array('Titulo' => $titulo, 
+                            'Mensaje' => $mensaje, 
+                            'Id_Notificacion' => $id_notificacion)
+                );
 
         $payload = json_encode($fields);
 
