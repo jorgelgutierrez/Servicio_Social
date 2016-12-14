@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MenuInicio">
+        <activity android:name=".SplashInicio"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,11 +20,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Ajustes"/>
+        <activity
+            android:name=".ProgresoSS"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".LineaTiempo" />
-
-        <activity android:name=".Reportes"/>
+        <activity
+            android:name=".Ajustes"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".Servicio_Notificaciones_Firebase"
@@ -33,7 +36,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".Servicio_Instanciar_Token_Firebase"
             android:enabled="true"

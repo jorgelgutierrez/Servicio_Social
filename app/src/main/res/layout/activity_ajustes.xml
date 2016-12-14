@@ -1,94 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_ajustes"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     style="@style/fondo_activities"
     tools:context="udg.cusur.ss.Ajustes">
 
-    <TextView
-        style="@style/titulos"
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Control de mi Servicio Social"
-        android:id="@+id/titulo" />
+        android:id="@+id/toolbar_progreso"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:titleTextColor="@android:color/white"/>
 
-    <TextView
-        style="@style/texto_contenidos"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/txt_titulo_carrera"
-        android:text="Selecciona tu carrera"
-        android:layout_below="@+id/titulo" />
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
 
-    <Spinner
-        style="@style/spinners"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:entries="@array/Carreras"
-        android:id="@+id/sp_carrera"
-        android:layout_below="@+id/txt_titulo_carrera" />
+        <TextView
+            style="@style/titulos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Control de mi Servicio Social"
+            android:id="@+id/titulo" />
 
-    <TextView
-        style="@style/texto_contenidos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/txt_titulo_fecha_inicio"
-        android:text="Selecciona la fecha de inicio que viene en tu oficio de comision"
-        android:layout_below="@+id/sp_carrera" />
+        <TextView
+            style="@style/texto_contenidos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/txt_titulo_carrera"
+            android:text="Selecciona tu carrera"
+            android:layout_below="@+id/titulo" />
 
-    <Button
-        style="@style/botones"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:drawableRight="@android:drawable/ic_menu_my_calendar"
-        android:text="Fecha Inicio"
-        android:onClick="dateInicio"
-        android:id="@+id/bt_fecha_inicio"
-        android:layout_below="@+id/txt_titulo_fecha_inicio" />
+        <Spinner
+            style="@style/spinners"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:entries="@array/Carreras"
+            android:id="@+id/sp_carrera"
+            android:layout_below="@+id/txt_titulo_carrera" />
 
-    <TextView
-        style="@style/texto_contenidos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txt_fecha_inicio"
-        android:textAlignment="center"
-        android:layout_below="@+id/bt_fecha_inicio" />
+        <TextView
+            style="@style/texto_contenidos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/txt_titulo_fecha_inicio"
+            android:text="Selecciona la fecha de inicio que viene en tu oficio de comision"
+            android:layout_below="@+id/sp_carrera" />
 
-    <TextView
-        style="@style/texto_contenidos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/txt_titulo_fecha_inicio_salud"
-        android:text="Selecciona tu fecha de inicio"
-        android:layout_below="@+id/sp_carrera" />
+        <Button
+            style="@style/botones"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:drawableRight="@android:drawable/ic_menu_my_calendar"
+            android:text="Fecha Inicio"
+            android:onClick="dateInicio"
+            android:id="@+id/bt_fecha_inicio"
+            android:layout_below="@+id/txt_titulo_fecha_inicio" />
 
-    <Spinner
-        style="@style/spinners"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:entries="@array/fechasInicioSalud"
-        android:id="@+id/sp_fecha_inicio_salud"
-        android:layout_below="@+id/txt_titulo_fecha_inicio" />
+        <TextView
+            style="@style/texto_contenidos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_fecha_inicio"
+            android:textAlignment="center"
+            android:layout_below="@+id/bt_fecha_inicio" />
 
-    <Button
-        style="@style/botones"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Guardar Cambios"
-        android:onClick="crearLinea"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/bt_crear_linea" />
+        <TextView
+            style="@style/texto_contenidos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/txt_titulo_fecha_inicio_salud"
+            android:text="Selecciona tu fecha de inicio"
+            android:layout_below="@+id/sp_carrera" />
 
+        <Spinner
+            style="@style/spinners"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:entries="@array/fechasInicioSalud"
+            android:id="@+id/sp_fecha_inicio_salud"
+            android:layout_below="@+id/txt_titulo_fecha_inicio" />
 
-</RelativeLayout>
+        <Button
+            style="@style/botones"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Guardar Cambios"
+            android:onClick="crearLinea"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/bt_crear_linea" />
+
+    </RelativeLayout>
+
+</LinearLayout>

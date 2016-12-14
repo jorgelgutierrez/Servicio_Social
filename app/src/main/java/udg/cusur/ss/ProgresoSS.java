@@ -7,14 +7,15 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class LineaTiempo extends AppCompatActivity {
+public class ProgresoSS extends AppCompatActivity {
 
     String fecha_actual = "";
     int carrera = 0;
@@ -41,7 +42,18 @@ public class LineaTiempo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_linea_tiempo);
+        setContentView(R.layout.activity_progreso_ss);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_progreso);
+        setSupportActionBar(toolbar);
+
+        //Metodo si es la primera vez que se abre la app redirecciona a ajustes...
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+        Boolean first = sharedPreferences.getBoolean("first",true);
+        if(first){
+            Intent intent = new Intent(ProgresoSS.this,Ajustes.class);
+            startActivity(intent);
+        }
 
 
         //Instanciando los objetos de la vista..
@@ -67,8 +79,6 @@ public class LineaTiempo extends AppCompatActivity {
         txt_horas_realizadas = (TextView) findViewById(R.id.txt_total_horas_realizadas);
         reporte_final = (TextView) findViewById(R.id.txt_reporte_final);
 
-        setTitle("Mi progreso");
-
         //Obteniendo la fecha del sistema...
         Date d = new Date();
         String fechaActual  = String.valueOf(DateFormat.format("dd/MM/yyyy", d.getTime()));
@@ -83,14 +93,32 @@ public class LineaTiempo extends AppCompatActivity {
 
         //Mostrar la linea del tiempo con sus reportes...
         mostrarReportes();
-        new calcularProgreso().execute();
+        new calcularProgresoFechas().execute();
         new calcularProgresoHoras().execute();
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_action_toolbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_action_settings:
+                Intent intent = new Intent(ProgresoSS.this,Ajustes.class);
+                startActivity(intent);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
 
     //Asyntask para calcular el progreso de fechas de acuerdo a su fecha de inicio de ss...
-    class calcularProgreso extends AsyncTask<Void, Void, Void>{
+    class calcularProgresoFechas extends AsyncTask<Void, Void, Void>{
 
         double total_dias_primer_reporte ;
         double dias_faltantes_primer_reporte ;
@@ -517,6 +545,19 @@ public class LineaTiempo extends AppCompatActivity {
 
     public void openReglamento(View vie){
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cusur.udg.mx/es/sites/default/files/reglamento_gral_para_la_prestacion_del_servicio_social.pdf"));
+        startActivity(browserIntent);
+    }
+
+    public void openGuiaReportes(View vie){
+
+        Intent browserIntent = null;
+
+        if(carrera > 10){
+            browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cusur.udg.mx/es/sites/default/files/guia_reportes_trimestrales_y_global_nutricion_enfermeria_y_medicina._2016.pdf"));
+        }else{
+            browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cusur.udg.mx/es/sites/default/files/guia_de_reportes_bimestrales_2016.pdf"));
+        }
+
         startActivity(browserIntent);
     }
 

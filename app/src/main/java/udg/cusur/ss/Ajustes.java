@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -351,7 +350,7 @@ public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDat
                     .setAction("Ver mi Progreso", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(Ajustes.this,LineaTiempo.class);
+                            Intent intent = new Intent(Ajustes.this,ProgresoSS.class);
                             startActivity(intent);
                             finish();
                         }

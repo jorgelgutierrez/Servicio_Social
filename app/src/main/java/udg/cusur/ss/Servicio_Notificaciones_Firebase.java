@@ -38,7 +38,7 @@ public class Servicio_Notificaciones_Firebase extends FirebaseMessagingService {
         //Creando manager de la notificacion para notificarla...
         Notification notificacion;
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent(this,LineaTiempo.class);
+        Intent intent = new Intent(this,ProgresoSS.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
