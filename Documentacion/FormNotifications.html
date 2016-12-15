@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Formulario de Notificaciones</title>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <!-- Bootstrap -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <!--Font Awesome-->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <!--JQuery-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+  <!--Caracteres-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8" />
+
+  <style type="text/css">
+  	#ssLogo{
+  		padding: 2px;
+  		height: 80px;
+  	}
+  	body{
+  		background: #F5F4F4;
+  	}
+  	header{
+  		background: #00695C;
+  	}
+  </style>
+
+  <script type="text/javascript">
+    
+    function habilitar(value)
+    {
+      if(value=="1" || value==true)
+      {
+        // habilitamos
+        document.getElementById("codigo").disabled=false;
+      }else if(value=="2" || value==false){
+        // deshabilitamos
+        document.getElementById("codigo").disabled=true;
+      }
+    }
+
+  </script>
+
+</head>
+
+<body>
+	<header class="headerPrincipal">
+	    <div class="container">
+		    <div class="row">
+		      	<div class="col-xs-12 col-sm-6">
+	      			<img id="ssLogo" class="img-responsive" src="images/logo_ss.png" align="left">
+		      	</div>
+			</div>
+	    </div>
+	</header>
+
+	<br><br>
+
+	<div class="row">
+		<div class="container">
+	        <div class="modal-dialog modal-lg">
+	          <div class="modal-content">
+	            <div class="row">
+	              <div class="col-md-12">
+	                <div class="modal-header">
+	                  <h4 class="modal-title" align="center">Notificaciones App Servicio Social</h4>
+	                </div>
+	                <div class="modal-body">
+	                  <form id="Form" method="post" action="#">
+	                    <div class="input-group">
+							<span class="input-group-addon" id="basic-addon1"><i class="glyphicon glyphicon-text-size" aria-hidden="true"></i></span>
+							<input type="text" class="form-control" name="titleMessage" id="titleMessage" maxlength="50" placeholder="Título del Mensaje" required/>
+						</div>
+						<br>
+						<div class="input-group">
+						  <span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
+						  <textarea class="form-control" rows="5" class="form-control" id="message" maxlength="254" placeholder="Ingrese el Mensaje" required></textarea>
+						</div>
+						<br>
+						<div class="input-group col-md-12">
+							<span class="input-group-addon" id="basic-addon1"><i class="fa fa-filter" aria-hidden="true"></i></span>
+							<select id="selectMode" name="selectMode" class="form-control" onchange="habilitar(this.value);">
+								<option value=""> Seleccione una Opción</option>
+								<option value="1"> Por Código</option>
+								<option value="2"> Para Todos</option>
+							</select>
+							<span class="input-group-addon" id="basic-addon3"><i class="glyphicon glyphicon-text-size" aria-hidden="true"></i></span>
+							<input type="text" class="form-control" name="codigo" id="codigo" maxlength="9" placeholder="Código" disabled="true" required>
+						</div>
+						<br>
+						<button type="button" class="btn btn-success">Enviar</button>
+	                  </form>
+	                </div>
+	              </div>
+	            </div> <!--End Row-->
+	          </div>
+	        </div>
+	    </div>
+	</div> <!--End Row-->
+</body>
+</html>
