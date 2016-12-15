@@ -3,8 +3,10 @@ package udg.cusur.ss;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -32,20 +34,26 @@ public class ProgresoSS extends AppCompatActivity {
     ImageView linea1, linea2, linea3, linea4;
     TextView reporte1, reporte2, reporte3, reporte4, reporte_final;
     TextView fecha_inicio_ss;
+    TextView txt_carrera;
+    TextView txt_codigo;
     TextView txt_fecha_actual;
     EditText txt_horas;
     TextView txt_horas_realizadas;
     String diaSistema = "";
     int mesSistema = 0;
     int anioSistema = 0;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progreso_ss);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_progreso);
+        //Iniciando toolbar...
+        toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         //Metodo si es la primera vez que se abre la app redirecciona a ajustes...
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
@@ -53,6 +61,7 @@ public class ProgresoSS extends AppCompatActivity {
         if(first){
             Intent intent = new Intent(ProgresoSS.this,Ajustes.class);
             startActivity(intent);
+            finish();
         }
 
 
@@ -74,6 +83,8 @@ public class ProgresoSS extends AppCompatActivity {
         reporte2 = (TextView) findViewById(R.id.txt_reporte2);
         reporte3 = (TextView) findViewById(R.id.txt_reporte3);
         reporte4 = (TextView) findViewById(R.id.txt_reporte4);
+        txt_codigo = (TextView) findViewById(R.id.txt_codigo);
+        txt_carrera = (TextView) findViewById(R.id.txt_carrera);
         txt_fecha_actual = (TextView) findViewById(R.id.txt_fecha_actual);
         txt_horas = (EditText) findViewById(R.id.txt_horas);
         txt_horas_realizadas = (TextView) findViewById(R.id.txt_total_horas_realizadas);
@@ -88,7 +99,7 @@ public class ProgresoSS extends AppCompatActivity {
         anioSistema = Integer.parseInt(aFechaIng[2]);
         fecha_actual = diaSistema+"/"+mesSistema+"/"+anioSistema;
         Metodos metodos = new Metodos();
-        txt_fecha_actual.setText("Fecha de hoy "+diaSistema+"/"+metodos.obtenerMes(mesSistema)+"/"+anioSistema);
+        txt_fecha_actual.setText("Fecha de hoy: "+diaSistema+"/"+metodos.obtenerMes(mesSistema)+"/"+anioSistema);
 
 
         //Mostrar la linea del tiempo con sus reportes...
@@ -111,6 +122,7 @@ public class ProgresoSS extends AppCompatActivity {
             case R.id.menu_action_settings:
                 Intent intent = new Intent(ProgresoSS.this,Ajustes.class);
                 startActivity(intent);
+                finish();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -429,7 +441,9 @@ public class ProgresoSS extends AppCompatActivity {
             new calcularProgresoHoras().execute();
 
         }else{
-            Toast.makeText(getApplicationContext(),"Ingresa las horas para sumarlas",Toast.LENGTH_SHORT).show();
+
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_progreso_ss),"Ingresa las horas para sumarlas",Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
     }
 
@@ -446,11 +460,13 @@ public class ProgresoSS extends AppCompatActivity {
                 editor.commit();
                 new calcularProgresoHoras().execute();
             }else{
-                Toast.makeText(getApplicationContext(),"No puedes restar mas horas de las que no tienes",Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_progreso_ss),"No puedes restar mas horas de las que no tienes",Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
 
         }else{
-            Toast.makeText(getApplicationContext(),"Ingresa las horas para restarlas",Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_progreso_ss),"Ingresa las horas para restarlas",Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
     }
 
@@ -459,7 +475,10 @@ public class ProgresoSS extends AppCompatActivity {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
         carrera = sharedPreferences.getInt("carrera",0);
         Metodos metodos = new Metodos();
+        String[] array = getResources().getStringArray(R.array.Carreras);
         if(carrera != 0) {
+            txt_carrera.setText("Carrera: "+array[carrera]);
+            txt_codigo.setText("Codigo: "+sharedPreferences.getString("Codigo","Sin codigo"));
             if(carrera < 12) {
 
                 String[] fecha = sharedPreferences.getString("fecha_inicio","0/0/0").split("/");
@@ -509,8 +528,10 @@ public class ProgresoSS extends AppCompatActivity {
                 reporte_final.setText("Reporte Final "+ fecha4[0]+"/"+metodos.obtenerMes(Integer.parseInt(fecha4[1]))+"/"+fecha4[2]);
             }
         }else{
-            Toast.makeText(getApplicationContext(),"Para comenzar porfavor agregar tu fecha de inicio " +
-                    "de servicio social que viene en tu oficio de comision y carrera e",Toast.LENGTH_LONG).show();
+            txt_carrera.setText("Carrera: Sin carrera");
+            txt_codigo.setText("Codigo: "+sharedPreferences.getString("Codigo","Sin codigo"));
+            Toast.makeText(getApplicationContext(),"Para comenzar porfavor agregar tu codigo, carrera y fecha de inicio " +
+                    "de servicio social que viene en tu oficio de comision",Toast.LENGTH_LONG).show();
         }
     }
 
@@ -544,21 +565,42 @@ public class ProgresoSS extends AppCompatActivity {
     }
 
     public void openReglamento(View vie){
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cusur.udg.mx/es/sites/default/files/reglamento_gral_para_la_prestacion_del_servicio_social.pdf"));
-        startActivity(browserIntent);
+        Metodos metodos = new Metodos();
+        Boolean conexion = metodos.isOnline(getApplicationContext());
+        if(conexion) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cusur.udg.mx/es/sites/default/files/reglamento_gral_para_la_prestacion_del_servicio_social.pdf"));
+            startActivity(browserIntent);
+        }else{
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_progreso_ss), "No hay conexión a internet para ver el reglamento", Snackbar.LENGTH_LONG);
+            snackbar.setActionTextColor(Color.WHITE);
+            View snackbarview = snackbar.getView();
+            snackbarview.setBackgroundColor(Color.RED);
+            snackbar.show();
+        }
     }
 
     public void openGuiaReportes(View vie){
+        Metodos metodos = new Metodos();
+        Boolean conexion = metodos.isOnline(getApplicationContext());
+        if(conexion) {
 
-        Intent browserIntent = null;
+            Intent browserIntent = null;
 
-        if(carrera > 10){
-            browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cusur.udg.mx/es/sites/default/files/guia_reportes_trimestrales_y_global_nutricion_enfermeria_y_medicina._2016.pdf"));
+            if(carrera > 10){
+                browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cusur.udg.mx/es/sites/default/files/guia_reportes_trimestrales_y_global_nutricion_enfermeria_y_medicina._2016.pdf"));
+            }else{
+                browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cusur.udg.mx/es/sites/default/files/guia_de_reportes_bimestrales_2016.pdf"));
+            }
+
+            startActivity(browserIntent);
+
         }else{
-            browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cusur.udg.mx/es/sites/default/files/guia_de_reportes_bimestrales_2016.pdf"));
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_progreso_ss), "No hay conexión a internet para ver la guia de reportes", Snackbar.LENGTH_LONG);
+            snackbar.setActionTextColor(Color.WHITE);
+            View snackbarview = snackbar.getView();
+            snackbarview.setBackgroundColor(Color.RED);
+            snackbar.show();
         }
-
-        startActivity(browserIntent);
     }
 
 

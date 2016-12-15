@@ -22,7 +22,7 @@ $server_key = "AIzaSyDAHjQTRGE8lbyInN1JVsHEf_J_uRQgTSU";
     $fecha_actual = $dia."/".$mes."/".$year;
     echo $fecha_actual;
     
-    $sql_reporte1 = "SELECT Token FROM fechas_reportes WHERE Reporte1='$fecha_actual'";
+    $sql_reporte1 = "SELECT Token FROM alumnos_fechas_reportes WHERE Reporte1='$fecha_actual'";
     $result_reporte1 = mysqli_query($conexion,$sql_reporte1);
     $mensaje = "Reporte 1";
 

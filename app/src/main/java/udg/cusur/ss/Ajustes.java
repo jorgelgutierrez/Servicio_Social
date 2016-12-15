@@ -5,15 +5,18 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,19 +46,42 @@ public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDat
     Button bt_fecha_inicio;
     TextView txt_fecha_inicio;
     TextView txt_titulo_fecha_inicio_salud;
+    EditText txt_codigo;
     Spinner sp_fecha_inicio_salud;
     String diaSistema = "";
     int mesSistema = 0;
     int anioSistema = 0;
     String fecha_inicio = "";
-
-
-
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajustes);
+
+        //Iniciando toolbar...
+        toolbar= (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //Escucha para ver si se presiono el back e ir atras...
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+                Boolean first = sharedPreferences.getBoolean("first",true);
+                if(first){
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_ajustes),"Para comenzar primero debes acompletar este apartado y guardar cambios",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }else{
+                    Intent intent = new Intent(Ajustes.this,ProgresoSS.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
 
         sp_carrera = (Spinner) findViewById(R.id.sp_carrera);
         txt_titulo_fecha_inicio = (TextView) findViewById(R.id.txt_titulo_fecha_inicio);
@@ -63,8 +89,8 @@ public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDat
         txt_fecha_inicio = (TextView) findViewById(R.id.txt_fecha_inicio);
         txt_titulo_fecha_inicio_salud = (TextView) findViewById(R.id.txt_titulo_fecha_inicio_salud);
         sp_fecha_inicio_salud = (Spinner) findViewById(R.id.sp_fecha_inicio_salud);
+        txt_codigo = (EditText) findViewById(R.id.txt_codigo);
 
-        setTitle("Ajustes");
 
         //Obteniendo la fecha del sistema...
         Date d = new Date();
@@ -109,6 +135,20 @@ public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDat
 
     }
 
+    @Override
+    public void onBackPressed() {
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+        Boolean first = sharedPreferences.getBoolean("first",true);
+        if(first){
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_ajustes),"Para comenzar primero debes acompletar este apartado y guardar cambios",Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }else{
+            Intent intent = new Intent(Ajustes.this,ProgresoSS.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
     //Metodo para iniciar el datepickerdialog...
     public void dateInicio(View view){
         DatePickerDialog date = new DatePickerDialog(this, this, 2016,1,1);
@@ -127,6 +167,7 @@ public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDat
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
         int carrera = sharedPreferences.getInt("carrera",0);
         if(carrera != 0){
+            txt_codigo.setText(sharedPreferences.getString("Codigo",""));
             sp_carrera.setSelection(carrera);
             if(carrera > 11){
                 String fecha_inicio = sharedPreferences.getString("fecha_inicio_salud","");
@@ -140,57 +181,72 @@ public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDat
                 String fecha_inicio = sharedPreferences.getString("fecha_inicio","");
                 txt_fecha_inicio.setText(fecha_inicio);
             }
-        }else{
-            Toast.makeText(getApplicationContext(),"Indica tu carrea y fecha de inicio de tu servicio social",Toast.LENGTH_LONG).show();
         }
     }
 
     //Metodo para cargar los ajustes para la creacio de la linea del tiempo dependiendo de su carrera y fecha de inicio...
     public void crearLinea(View view){
-        if(sp_carrera.getSelectedItemPosition() > 0 && txt_fecha_inicio.getText() != "" || sp_fecha_inicio_salud.getSelectedItemPosition() > 0){
-            //Si la carrera es de 480 horas su servicio solo se guarda su carrera y la fecha de inicio que se selecciono de acuerdo a su oficio de comision...
-            if (sp_carrera.getSelectedItemPosition() < 11) {
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("fecha_inicio", fecha_inicio = txt_fecha_inicio.getText().toString());
-                editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
-                editor.putInt("Total horas", 480);
-                editor.putInt("Horas", 0);
-                editor.putBoolean("first",false);
-                editor.commit();
-                calcularFechasReportes();
-                new enviarMiServicio().execute();
+        Metodos metodos = new Metodos();
+        Boolean conexion = metodos.isOnline(getApplicationContext());
+        if(conexion) {
+            if (sp_carrera.getSelectedItemPosition() > 0 && !txt_codigo.getText().toString().equals("")) {
+                //Si la carrera es de 480 horas su servicio solo se guarda su carrera y la fecha de inicio que se selecciono de acuerdo a su oficio de comision...
+                if (sp_carrera.getSelectedItemPosition() < 11 && !txt_fecha_inicio.getText().toString().equals("")) {
+                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("fecha_inicio", fecha_inicio = txt_fecha_inicio.getText().toString());
+                    editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
+                    editor.putInt("Total horas", 480);
+                    editor.putInt("Horas", 0);
+                    editor.putString("Codigo", txt_codigo.getText().toString());
+                    editor.commit();
+                    calcularFechasReportes();
+                    new enviarMiServicio().execute();
 
-            } else if (sp_carrera.getSelectedItemPosition() == 11) {
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("fecha_inicio", fecha_inicio = txt_fecha_inicio.getText().toString());
-                editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
-                editor.putInt("Total horas", 960);
-                editor.putInt("Horas", 0);
-                editor.putBoolean("first",false);
-                editor.commit();
-                calcularFechasReportes();
-                new enviarMiServicio().execute();
+                } else if (sp_carrera.getSelectedItemPosition() == 11 && !txt_fecha_inicio.getText().toString().equals("")) {
+                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("fecha_inicio", fecha_inicio = txt_fecha_inicio.getText().toString());
+                    editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
+                    editor.putInt("Total horas", 960);
+                    editor.putInt("Horas", 0);
+                    editor.putString("Codigo", txt_codigo.getText().toString());
+                    editor.commit();
+                    calcularFechasReportes();
+                    new enviarMiServicio().execute();
 
-            } else if (sp_carrera.getSelectedItemPosition() > 11) {
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                String fecha_inicio_salud = "";
-                if(sp_fecha_inicio_salud.getSelectedItemPosition() == 1)fecha_inicio_salud = "01/02/"+anioSistema;
-                if(sp_fecha_inicio_salud.getSelectedItemPosition() == 2)fecha_inicio_salud = "01/08/"+anioSistema;
-                editor.putString("fecha_inicio_salud", fecha_inicio = fecha_inicio_salud);
-                editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
-                editor.putInt("Total horas", 960);
-                editor.putInt("Horas", 0);
-                editor.putBoolean("first",false);
-                editor.commit();
-                calcularFechasReportes();
-                new enviarMiServicio().execute();
+                } else if (sp_carrera.getSelectedItemPosition() > 11 && sp_fecha_inicio_salud.getSelectedItemPosition() > 0) {
+                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    String fecha_inicio_salud = "";
+                    if (sp_fecha_inicio_salud.getSelectedItemPosition() == 1)
+                        fecha_inicio_salud = "01/02/" + anioSistema;
+                    if (sp_fecha_inicio_salud.getSelectedItemPosition() == 2)
+                        fecha_inicio_salud = "01/08/" + anioSistema;
+                    editor.putString("fecha_inicio_salud", fecha_inicio = fecha_inicio_salud);
+                    editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
+                    editor.putInt("Total horas", 960);
+                    editor.putInt("Horas", 0);
+                    editor.putString("Codigo", txt_codigo.getText().toString());
+                    editor.commit();
+                    calcularFechasReportes();
+                    new enviarMiServicio().execute();
 
+                } else {
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_ajustes), "Favor de completar los requisitos", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+
+            } else {
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_ajustes), "Favor de completar los requisitos", Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         }else{
-            Toast.makeText(getApplicationContext(),"Incompleto",Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_ajustes), "No hay conexión a internet", Snackbar.LENGTH_LONG);
+            snackbar.setActionTextColor(Color.WHITE);
+            View snackbarview = snackbar.getView();
+            snackbarview.setBackgroundColor(Color.RED);
+            snackbar.show();
         }
     }
 
@@ -324,6 +380,7 @@ public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDat
             HttpClient cliente = new DefaultHttpClient();
             HttpPost post = new HttpPost(url_servidor);
             List<NameValuePair> postParameters = new ArrayList<NameValuePair>(1);
+            postParameters.add(new BasicNameValuePair("codigo",sharedPreferences.getString("Codigo","ninguno")));
             postParameters.add(new BasicNameValuePair("token",sharedPreferences.getString("token","ninguno")));
             postParameters.add(new BasicNameValuePair("reporte1",sharedPreferences.getString("Primer reporte","0/0/0")));
             postParameters.add(new BasicNameValuePair("reporte2",sharedPreferences.getString("Segundo reporte","0/0/0")));
@@ -346,16 +403,20 @@ public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDat
         @Override
         protected void onPostExecute(Void aVoid) {
             pDialog.dismiss();
-            Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_ajustes),"Servicio Guardado",Snackbar.LENGTH_LONG)
-                    .setAction("Ver mi Progreso", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(Ajustes.this,ProgresoSS.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    });
-            snackbar.show();
+            //Metodo si es la primera vez que se abre la app redirecciona a ajustes...
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+            Boolean first = sharedPreferences.getBoolean("first",true);
+            if(first){
+                Intent intent = new Intent(Ajustes.this,ProgresoSS.class);
+                startActivity(intent);
+                finish();
+            }else{
+                onBackPressed();
+            }
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("first",false);
+            editor.commit();
+            Toast.makeText(getApplicationContext(),"Servicio Guardado",Toast.LENGTH_SHORT).show();
         }
     }
 

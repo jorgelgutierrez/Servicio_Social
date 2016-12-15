@@ -15,16 +15,12 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             android:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="Centro Universitario del Sur"
-            app:subtitle="Unidad de Servicio Social"
-            app:titleTextColor="@android:color/white"
-            app:subtitleTextColor="@android:color/white"
-            app:titleTextAppearance="@style/AppTheme.Title"
-            app:subtitleTextAppearance="@style/AppTheme.Subtitle">
+            app:logo="@drawable/logo_udg">
 
 
         </android.support.v7.widget.Toolbar>

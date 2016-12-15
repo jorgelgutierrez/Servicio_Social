@@ -1,107 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_ajustes"
+    android:id="@+id/coor_ajustes"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    style="@style/fondo_activities"
-    tools:context="udg.cusur.ss.Ajustes">
+    tools:context=".Ajustes">
 
-    <android.support.v7.widget.Toolbar
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/toolbar_progreso"
-        android:minHeight="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:titleTextColor="@android:color/white"/>
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin">
-
-        <TextView
-            style="@style/titulos"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Control de mi Servicio Social"
-            android:id="@+id/titulo" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:popupTheme="@style/AppTheme.PopupOverlay"
+            app:logo="@drawable/logo_udg"
+            style="@style/ToolbarAjustes">
 
-        <TextView
-            style="@style/texto_contenidos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/txt_titulo_carrera"
-            android:text="Selecciona tu carrera"
-            android:layout_below="@+id/titulo" />
 
-        <Spinner
-            style="@style/spinners"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:entries="@array/Carreras"
-            android:id="@+id/sp_carrera"
-            android:layout_below="@+id/txt_titulo_carrera" />
+        </android.support.v7.widget.Toolbar>
 
-        <TextView
-            style="@style/texto_contenidos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/txt_titulo_fecha_inicio"
-            android:text="Selecciona la fecha de inicio que viene en tu oficio de comision"
-            android:layout_below="@+id/sp_carrera" />
 
-        <Button
-            style="@style/botones"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:drawableRight="@android:drawable/ic_menu_my_calendar"
-            android:text="Fecha Inicio"
-            android:onClick="dateInicio"
-            android:id="@+id/bt_fecha_inicio"
-            android:layout_below="@+id/txt_titulo_fecha_inicio" />
+    </android.support.design.widget.AppBarLayout>
 
-        <TextView
-            style="@style/texto_contenidos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txt_fecha_inicio"
-            android:textAlignment="center"
-            android:layout_below="@+id/bt_fecha_inicio" />
+    <include layout="@layout/content_ajustes"/>
 
-        <TextView
-            style="@style/texto_contenidos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/txt_titulo_fecha_inicio_salud"
-            android:text="Selecciona tu fecha de inicio"
-            android:layout_below="@+id/sp_carrera" />
-
-        <Spinner
-            style="@style/spinners"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:entries="@array/fechasInicioSalud"
-            android:id="@+id/sp_fecha_inicio_salud"
-            android:layout_below="@+id/txt_titulo_fecha_inicio" />
-
-        <Button
-            style="@style/botones"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Guardar Cambios"
-            android:onClick="crearLinea"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/bt_crear_linea" />
-
-    </RelativeLayout>
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

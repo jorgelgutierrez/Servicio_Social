@@ -22,9 +22,11 @@
 
         <activity
             android:name=".ProgresoSS"
+            android:label=""
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
+            android:label=""
             android:name=".Ajustes"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -36,6 +38,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <service
             android:name=".Servicio_Instanciar_Token_Firebase"
             android:enabled="true"

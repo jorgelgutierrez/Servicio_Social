@@ -46,7 +46,7 @@ public class Servicio_Notificaciones_Firebase extends FirebaseMessagingService {
                 .setSmallIcon(icon)
                 .setContentTitle(titulo)
                 .setContentText(Body)
-                .setColor(getResources().getColor(R.color.colorAccent))
+                .setColor(getResources().getColor(R.color.colorPrimary))
                 .setVibrate(vibracion)
                 .setSound(alarmSound)
                 .setContentIntent(pendingIntent)
