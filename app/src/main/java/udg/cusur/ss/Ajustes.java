@@ -189,56 +189,60 @@ public class Ajustes extends AppCompatActivity implements DatePickerDialog.OnDat
         Metodos metodos = new Metodos();
         Boolean conexion = metodos.isOnline(getApplicationContext());
         if(conexion) {
-            if (sp_carrera.getSelectedItemPosition() > 0 && !txt_codigo.getText().toString().equals("")) {
-                //Si la carrera es de 480 horas su servicio solo se guarda su carrera y la fecha de inicio que se selecciono de acuerdo a su oficio de comision...
-                if (sp_carrera.getSelectedItemPosition() < 11 && !txt_fecha_inicio.getText().toString().equals("")) {
-                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("fecha_inicio", fecha_inicio = txt_fecha_inicio.getText().toString());
-                    editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
-                    editor.putInt("Total horas", 480);
-                    editor.putInt("Horas", 0);
-                    editor.putString("Codigo", txt_codigo.getText().toString());
-                    editor.commit();
-                    calcularFechasReportes();
-                    new enviarMiServicio().execute();
+            if (!txt_codigo.getText().toString().equals("")) {
+                if(sp_carrera.getSelectedItemPosition() > 0) {
+                    //Si la carrera es de 480 horas su servicio solo se guarda su carrera y la fecha de inicio que se selecciono de acuerdo a su oficio de comision...
+                    if (sp_carrera.getSelectedItemPosition() < 11 && !txt_fecha_inicio.getText().toString().equals("")) {
+                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("fecha_inicio", fecha_inicio = txt_fecha_inicio.getText().toString());
+                        editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
+                        editor.putInt("Total horas", 480);
+                        editor.putInt("Horas", 0);
+                        editor.putString("Codigo", txt_codigo.getText().toString());
+                        editor.commit();
+                        calcularFechasReportes();
+                        new enviarMiServicio().execute();
 
-                } else if (sp_carrera.getSelectedItemPosition() == 11 && !txt_fecha_inicio.getText().toString().equals("")) {
-                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("fecha_inicio", fecha_inicio = txt_fecha_inicio.getText().toString());
-                    editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
-                    editor.putInt("Total horas", 960);
-                    editor.putInt("Horas", 0);
-                    editor.putString("Codigo", txt_codigo.getText().toString());
-                    editor.commit();
-                    calcularFechasReportes();
-                    new enviarMiServicio().execute();
+                    } else if (sp_carrera.getSelectedItemPosition() == 11 && !txt_fecha_inicio.getText().toString().equals("")) {
+                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("fecha_inicio", fecha_inicio = txt_fecha_inicio.getText().toString());
+                        editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
+                        editor.putInt("Total horas", 960);
+                        editor.putInt("Horas", 0);
+                        editor.putString("Codigo", txt_codigo.getText().toString());
+                        editor.commit();
+                        calcularFechasReportes();
+                        new enviarMiServicio().execute();
 
-                } else if (sp_carrera.getSelectedItemPosition() > 11 && sp_fecha_inicio_salud.getSelectedItemPosition() > 0) {
-                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    String fecha_inicio_salud = "";
-                    if (sp_fecha_inicio_salud.getSelectedItemPosition() == 1)
-                        fecha_inicio_salud = "01/02/" + anioSistema;
-                    if (sp_fecha_inicio_salud.getSelectedItemPosition() == 2)
-                        fecha_inicio_salud = "01/08/" + anioSistema;
-                    editor.putString("fecha_inicio_salud", fecha_inicio = fecha_inicio_salud);
-                    editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
-                    editor.putInt("Total horas", 960);
-                    editor.putInt("Horas", 0);
-                    editor.putString("Codigo", txt_codigo.getText().toString());
-                    editor.commit();
-                    calcularFechasReportes();
-                    new enviarMiServicio().execute();
+                    } else if (sp_carrera.getSelectedItemPosition() > 11 && sp_fecha_inicio_salud.getSelectedItemPosition() > 0) {
+                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Parametros", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        String fecha_inicio_salud = "";
+                        if (sp_fecha_inicio_salud.getSelectedItemPosition() == 1)
+                            fecha_inicio_salud = "01/02/" + anioSistema;
+                        if (sp_fecha_inicio_salud.getSelectedItemPosition() == 2)
+                            fecha_inicio_salud = "01/08/" + anioSistema;
+                        editor.putString("fecha_inicio_salud", fecha_inicio = fecha_inicio_salud);
+                        editor.putInt("carrera", sp_carrera.getSelectedItemPosition());
+                        editor.putInt("Total horas", 960);
+                        editor.putInt("Horas", 0);
+                        editor.putString("Codigo", txt_codigo.getText().toString());
+                        editor.commit();
+                        calcularFechasReportes();
+                        new enviarMiServicio().execute();
 
-                } else {
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_ajustes), "Favor de completar los requisitos", Snackbar.LENGTH_LONG);
+                    } else {
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_ajustes), "Selecciona tu fecha de inicio", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                }else {
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_ajustes), "Selecciona tu carrera", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
-
             } else {
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_ajustes), "Favor de completar los requisitos", Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.coor_ajustes), "Ingresa tu codigo", Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         }else{
