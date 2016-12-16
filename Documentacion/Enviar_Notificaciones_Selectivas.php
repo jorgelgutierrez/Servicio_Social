@@ -3,14 +3,26 @@
     include ('Conexion.php');
     $mensaje = $_POST["mensaje"];
     $titulo = $_POST["titulo"];
+    $codigo = $_POST["codigo"];
+
     
     $path_to_fcm = "https://fcm.googleapis.com/fcm/send";
     $server_key = "AIzaSyDAHjQTRGE8lbyInN1JVsHEf_J_uRQgTSU";
     
     if( $_SERVER['REQUEST_METHOD'] == "POST" ){
         
-        $sql = "SELECT Token FROM alumnos_fechas_reportes WHERE Reporte1='$fecha_actual'";
-        $result = mysqli_query($conexion,$sql);
+        $sql = "";
+        $result = "";
+        
+        if($codigo != ""){
+            echo "Enviado Por codigo";
+            $sql = "SELECT Token FROM alumnos_fechas_reportes WHERE Codigo='$codigo'";
+            $result = mysqli_query($conexion,$sql);
+        }else{
+            echo "Enviado a todos";
+            $sql = "SELECT Token FROM alumnos_fechas_reportes";
+            $result = mysqli_query($conexion,$sql);
+        }
         
         while($row = mysqli_fetch_array($result)){
             

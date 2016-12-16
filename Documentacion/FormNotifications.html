@@ -13,6 +13,7 @@
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <!--JQuery-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+  <script src="Enviar_Notify.js"></script>
   <!--Caracteres-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8" />
 
@@ -27,6 +28,10 @@
   	header{
   		background: #00695C;
   	}
+  .tope{
+      margin-bottom: 4%;
+  }
+  
   </style>
 
   <script type="text/javascript">
@@ -39,6 +44,7 @@
         document.getElementById("codigo").disabled=false;
       }else if(value=="2" || value==false){
         // deshabilitamos
+        document.getElementById("codigo").value = "";
         document.getElementById("codigo").disabled=true;
       }
     }
@@ -73,26 +79,33 @@
 	                  <form id="Form" method="post" action="#">
 	                    <div class="input-group">
 							<span class="input-group-addon" id="basic-addon1"><i class="glyphicon glyphicon-text-size" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="titleMessage" id="titleMessage" maxlength="50" placeholder="Título del Mensaje" required/>
+							<input type="text" class="form-control" name="titulo" id="titleMessage" maxlength="50" placeholder="Título del Mensaje" required/>
 						</div>
 						<br>
 						<div class="input-group">
 						  <span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
-						  <textarea class="form-control" rows="5" class="form-control" id="message" maxlength="254" placeholder="Ingrese el Mensaje" required></textarea>
+						  <textarea class="form-control" rows="5" class="form-control" id="message" name="mensaje" maxlength="254" placeholder="Ingrese el Mensaje" required></textarea>
 						</div>
 						<br>
-						<div class="input-group col-md-12">
-							<span class="input-group-addon" id="basic-addon1"><i class="fa fa-filter" aria-hidden="true"></i></span>
-							<select id="selectMode" name="selectMode" class="form-control" onchange="habilitar(this.value);">
-								<option value=""> Seleccione una Opción</option>
-								<option value="1"> Por Código</option>
-								<option value="2"> Para Todos</option>
-							</select>
-							<span class="input-group-addon" id="basic-addon3"><i class="glyphicon glyphicon-text-size" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="codigo" id="codigo" maxlength="9" placeholder="Código" disabled="true" required>
-						</div>
+						<div class="row">
+                            <div class=" col-xs-12 col-sm-6">
+                            <div class="input-group tope">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-filter" aria-hidden="true"></i></span>
+                                <select id="selectMode" name="selectMode" class="form-control" onchange="habilitar(this.value);">
+                                    <option value="2"> Para Todos</option>
+                                    <option value="1"> Por Código</option>                                
+                                </select>
+                            </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                            <div class="input-group tope">
+                                <span class="input-group-addon" id="basic-addon3"><i class="glyphicon glyphicon-text-size" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="codigo" id="codigo" maxlength="9" placeholder="Código" disabled="true" required>
+                            </div>
+                            </div>
+                        </div>
 						<br>
-						<button type="button" class="btn btn-success">Enviar</button>
+						<button type="button" class="btn btn-success" onclick="enviarNotificacion();">Enviar</button>
 	                  </form>
 	                </div>
 	              </div>
